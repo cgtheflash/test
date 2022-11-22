@@ -45,7 +45,10 @@
                 "addressPrefix": "[parameters('bastionSubnetAddressPrefix')]",
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Disabled",
-                "privateLinkServiceNetworkPolicies": "Enabled"
+                "privateLinkServiceNetworkPolicies": "Enabled",
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', [variables('bastion-nsg-name'))]"
+                }
             }
         },
         {
