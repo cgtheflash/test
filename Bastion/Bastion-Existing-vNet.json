@@ -47,7 +47,7 @@
                 "privateEndpointNetworkPolicies": "Disabled",
                 "privateLinkServiceNetworkPolicies": "Enabled",
                 "networkSecurityGroup": {
-                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', [variables('bastion-nsg-name'))]"
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('bastion-nsg-name'))]"
                 }
             }
         },
