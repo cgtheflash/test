@@ -5,3 +5,7 @@ vNet 2 Tier NSG:
 Azure Bastion to Existing vNet:
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcgtheflash%2Ftest%2Fmain%2FBastion%2FBastion-Existing-vNet.json)
+
+Identity Spoke
+
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcgtheflash%2Ftest%2Fmain%2FIdentity%2FIdentity-Spoke.json)
