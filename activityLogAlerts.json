@@ -1,0 +1,599 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "activityLogAlertNameSuffix": {
+            "type": "string",
+            "metadata": {
+                "description": "Unique name (within the Resource Group) for the Activity log alert."
+            }
+        },
+        "deployAlertSecuritySolutionWrite": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "metadata": {
+                "description": "Deploy Activity Log Alert for Security Solutions Created or Updated."
+            },
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "enableActivityLogSecuritySolutionWrite": {
+            "type": "bool",
+      "defaultValue": true,
+            "metadata": {
+                "description": "Enable Create or Update Network Security Group Activity Log Alert."
+            }
+        },
+        "deployAlertSecuritySolutionDelete": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "metadata": {
+                "description": "Deploy Activity Log Alert for Security Solutions Deleted."
+            },
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "enableActivityLogSecuritySolutionDelete": {
+            "type": "bool",
+      "defaultValue": true,
+            "metadata": {
+                "description": "Enable Delete Network Security Group Activity Log Alert."
+            }
+        },
+        "deployAlertNetworkSecurityGroupWrite": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "metadata": {
+                "description": "Deploy Activity Log Alert for Network Security Group Created or Updated."
+            },
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "enableActivityLogNetworkSecurityGroupWrite": {
+            "type": "bool",
+      "defaultValue": true,
+            "metadata": {
+                "description": "Enable Create or Update Network Security Group Activity Log Alert."
+            }
+        },
+        "deployAlertNetworkSecurityGroupDelete": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "metadata": {
+                "description": "Deploy Activity Log Alert for Network Security Group Deleted."
+            },
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "enableActivityLogNetworkSecurityGroupDelete": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "Enable Delete Network Security Group Activity Log Alert."
+            }
+        },
+        "deployAlertNetworkSecurityGroupRuleWrite": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "metadata": {
+                "description": "Deploy Activity Log Alert for Network Security Group Rule Created or Updated."
+            },
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "enableActivityLogNetworkSecurityGroupRuleWrite": {
+            "type": "bool",
+      "defaultValue": true,
+            "metadata": {
+                "description": "Enable Create or Update Network Security Group Rule Activity Log Alert."
+            }
+        },
+        "deployAlertNetworkSecurityGroupRuleDelete": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "metadata": {
+                "description": "Deploy Activity Log Alert for Network Security Group Rule Deleted."
+            },
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "enableActivityLogNetworkSecurityGroupRuleDelete": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "Enable Delete Network Security Group Rule Activity Log Alert."
+            }
+        },
+        "deployAlertSQLFirewallRuleWrite": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "metadata": {
+                "description": "Deploy Activity Log Alert for SQL Firewall Rule Created or Updated."
+            },
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "enableActivityLogSQLFirewallRuleWrite": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "Enable Create or Update SQL Firewall Rule Activity Log Alert."
+            }
+        },
+        "deployAlertSQLFirewallRuleDelete": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "metadata": {
+                "description": "Deploy Activity Log Alert for SQL Firewall Rule Deleted."
+            },
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "enableActivityLogSQLFirewallRuleDelete": {
+            "type": "bool",
+      "defaultValue": true,
+            "metadata": {
+                "description": "Enable Delete SQL Firewall Rule Activity Log Alert."
+            }
+        },
+        "deployAlertPolicyAssignmentWrite": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "metadata": {
+                "description": "Deploy Activity Log Alert for Policy Assignment Created or Updated."
+            },
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "enableActivityLogPolicyAssignmentWrite": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "Enable Activity Log Alert for Policy Assignment Created or Updated."
+            }            
+        },
+        "deployAlertPolicyAssignmentDelete": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "metadata": {
+                "description": "Deploy Activity Log Alert for Policy Assignment Deleted."
+            },
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "enableActivityLogPolicyAssignmentDelete": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "Enable Activity Log Alert for Policy Assignment Deleted."
+            }
+        },
+        "deployAlertPolicyWrite": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "metadata": {
+                "description": "Deploy Activity Log Alert for Policy Assignment Created or Updated."
+            },
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "enableActivityLogPolicyWrite": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "Enable Activity Log Alert for Policy Assignment Created or Updated."
+            }            
+        },
+        "actionGroupResourceId": {
+            "type": "string",
+            "metadata": {
+                "description": "Resource Id for the Action group."
+            }
+        }
+    },
+    "resources": [
+        {
+            "condition": "[equals(parameters('deployAlertSecuritySolutionWrite'),'Yes')]",
+            "type": "Microsoft.Insights/activityLogAlerts",
+            "apiVersion": "2017-04-01",
+            "name": "[concat('Create or Update Security Solution ', parameters('activityLogAlertNameSuffix'))]",
+            "location": "Global",
+            "properties": {
+                "enabled": "[parameters('enableActivityLogSecuritySolutionWrite')]",
+                "scopes": [
+                    "[subscription().id]"
+                ],
+                "condition": {
+                    "allOf": [
+                        {
+                            "field": "category",
+                            "equals": "Security"
+                        },
+                        {
+                            "field": "operationName",
+                            "equals": "Microsoft.Security/securitySolutions/write"
+                        },
+                        {
+                            "field": "resourceType",
+                            "equals": "microsoft.security/securitysolutions"
+                        }
+                    ]
+                },
+                "actions": {
+                    "actionGroups": [
+                        {
+                            "actionGroupId": "[parameters('actionGroupResourceId')]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "condition": "[equals(parameters('deployAlertSecuritySolutionDelete'),'Yes')]",
+            "type": "Microsoft.Insights/activityLogAlerts",
+            "apiVersion": "2017-04-01",
+            "name": "[concat('Delete Security Solution ', parameters('activityLogAlertNameSuffix'))]",
+            "location": "Global",
+            "properties": {
+                "enabled": "[parameters('enableActivityLogSecuritySolutionDelete')]",
+                "scopes": [
+                    "[subscription().id]"
+                ],
+                "condition": {
+                    "allOf": [
+                        {
+                            "field": "category",
+                            "equals": "Security"
+                        },
+                        {
+                            "field": "operationName",
+                            "equals": "Microsoft.Security/securitySolutions/delete"
+                        },
+                        {
+                            "field": "resourceType",
+                            "equals": "microsoft.security/securitysolutions"
+                        }
+                    ]
+                },
+                "actions": {
+                    "actionGroups": [
+                        {
+                            "actionGroupId": "[parameters('actionGroupResourceId')]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "condition": "[equals(parameters('deployAlertNetworkSecurityGroupWrite'),'Yes')]",
+            "type": "Microsoft.Insights/activityLogAlerts",
+            "apiVersion": "2017-04-01",
+            "name": "[concat('Create or Update Network Security Group ', parameters('activityLogAlertNameSuffix'))]",
+            "location": "Global",
+            "properties": {
+                "enabled": "[parameters('enableActivityLogNetworkSecurityGroupWrite')]",
+                "scopes": [
+                    "[subscription().id]"
+                ],
+                "condition": {
+                    "allOf": [
+                        {
+                          "field": "category",
+                          "equals": "Administrative"
+                        },
+                        {
+                          "field": "operationName",
+                          "equals": "Microsoft.Network/networkSecurityGroups/write"
+                        },
+                        {
+                          "field": "resourceType",
+                          "equals": "Microsoft.Network/networkSecurityGroups"
+                        }
+                      ]
+                },
+                "actions": {
+                    "actionGroups": [
+                        {
+                            "actionGroupId": "[parameters('actionGroupResourceId')]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "condition": "[equals(parameters('deployAlertNetworkSecurityGroupDelete'),'Yes')]",
+            "type": "Microsoft.Insights/activityLogAlerts",
+            "apiVersion": "2017-04-01",
+            "name": "[concat('Delete Network Security Group ', parameters('activityLogAlertNameSuffix'))]",
+            "location": "Global",
+            "properties": {
+                "enabled": "[parameters('enableActivityLogNetworkSecurityGroupDelete')]",
+                "scopes": [
+                    "[subscription().id]"
+                ],
+                "condition": {
+                    "allOf": [
+                        {
+                          "field": "category",
+                          "equals": "Administrative"
+                        },
+                        {
+                          "field": "operationName",
+                          "equals": "Microsoft.Network/networkSecurityGroups/delete"
+                        },
+                        {
+                          "field": "resourceType",
+                          "equals": "Microsoft.Network/networkSecurityGroups"
+                        }
+                      ]
+                },
+                "actions": {
+                    "actionGroups": [
+                        {
+                            "actionGroupId": "[parameters('actionGroupResourceId')]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "condition": "[equals(parameters('deployAlertNetworkSecurityGroupRuleWrite'),'Yes')]",
+            "type": "Microsoft.Insights/activityLogAlerts",
+            "apiVersion": "2017-04-01",
+            "name": "[concat('Create or Update Network Security Group Rule ', parameters('activityLogAlertNameSuffix'))]",
+            "location": "Global",
+            "properties": {
+                "enabled": "[parameters('enableActivityLogNetworkSecurityGroupRuleWrite')]",
+                "scopes": [
+                    "[subscription().id]"
+                ],
+                "condition": {
+                    "allOf": [
+                        {
+                          "field": "category",
+                          "equals": "Administrative"
+                        },
+                        {
+                          "field": "operationName",
+                          "equals": "Microsoft.Network/networkSecurityGroups/securityRules/write"
+                        }
+                      ]
+                },
+                "actions": {
+                    "actionGroups": [
+                        {
+                            "actionGroupId": "[parameters('actionGroupResourceId')]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "condition": "[equals(parameters('deployAlertNetworkSecurityGroupRuleDelete'),'Yes')]",
+            "type": "Microsoft.Insights/activityLogAlerts",
+            "apiVersion": "2017-04-01",
+            "name": "[concat('Delete Network Security Group Rule ', parameters('activityLogAlertNameSuffix'))]",
+            "location": "Global",
+            "properties": {
+                "enabled": "[parameters('enableActivityLogNetworkSecurityGroupRuleDelete')]",
+                "scopes": [
+                    "[subscription().id]"
+                ],
+                "condition": {
+                    "allOf": [
+                        {
+                          "field": "category",
+                          "equals": "Administrative"
+                        },
+                        {
+                          "field": "operationName",
+                          "equals": "Microsoft.Network/networkSecurityGroups/securityRules/delete"
+                        }
+                      ]
+                },
+                "actions": {
+                    "actionGroups": [
+                        {
+                            "actionGroupId": "[parameters('actionGroupResourceId')]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "condition": "[equals(parameters('deployAlertSQLFirewallRuleWrite'),'Yes')]",
+            "type": "Microsoft.Insights/activityLogAlerts",
+            "apiVersion": "2017-04-01",
+            "name": "[concat('Create or Update SQL Firewall Rule ', parameters('activityLogAlertNameSuffix'))]",
+            "location": "Global",
+            "properties": {
+                "enabled": "[parameters('enableActivityLogSQLFirewallRuleWrite')]",
+                "scopes": [
+                    "[subscription().id]"
+                ],
+                "condition": {
+                    "allOf": [
+                        {
+                          "field": "category",
+                          "equals": "Administrative"
+                        },
+                        {
+                          "field": "operationName",
+                          "equals": "Microsoft.Sql/servers/firewallRules/write"
+                        }
+                      ]
+                },
+                "actions": {
+                    "actionGroups": [
+                        {
+                            "actionGroupId": "[parameters('actionGroupResourceId')]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "condition": "[equals(parameters('deployAlertSQLFirewallRuleDelete'),'Yes')]",
+            "type": "Microsoft.Insights/activityLogAlerts",
+            "apiVersion": "2017-04-01",
+            "name": "[concat('Delete SQL Firewall Rule ', parameters('activityLogAlertNameSuffix'))]",
+            "location": "Global",
+            "properties": {
+                "enabled": "[parameters('enableActivityLogSQLFirewallRuleDelete')]",
+                "scopes": [
+                    "[subscription().id]"
+                ],
+                "condition": {
+                    "allOf": [
+                        {
+                          "field": "category",
+                          "equals": "Administrative"
+                        },
+                        {
+                          "field": "operationName",
+                          "equals": "Microsoft.Sql/servers/firewallRules/delete"
+                        }
+                      ]
+                },
+                "actions": {
+                    "actionGroups": [
+                        {
+                            "actionGroupId": "[parameters('actionGroupResourceId')]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "condition": "[equals(parameters('deployAlertPolicyAssignmentWrite'),'Yes')]",
+            "type": "Microsoft.Insights/activityLogAlerts",
+            "apiVersion": "2017-04-01",
+            "name": "[concat('Create or Update Policy Assignment ', parameters('activityLogAlertNameSuffix'))]",
+            "location": "Global",
+            "properties": {
+                "enabled": "[parameters('enableActivityLogPolicyAssignmentWrite')]",
+                "scopes": [
+                    "[subscription().id]"
+                ],
+                "condition": {
+                    "allOf": [
+                        {
+                          "field": "category",
+                          "equals": "Administrative"
+                        },
+                        {
+                          "field": "operationName",
+                          "equals": "Microsoft.Authorization/policyAssignments/write"
+                        },
+                        {
+                          "field": "resourceType",
+                          "equals": "microsoft.authorization/policyassignments"
+                        }
+                      ]
+                },
+                "actions": {
+                    "actionGroups": [
+                        {
+                            "actionGroupId": "[parameters('actionGroupResourceId')]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "condition": "[equals(parameters('deployAlertPolicyAssignmentDelete'),'Yes')]",
+            "type": "Microsoft.Insights/activityLogAlerts",
+            "apiVersion": "2017-04-01",
+            "name": "[concat('Delete Policy Assignment ', parameters('activityLogAlertNameSuffix'))]",
+            "location": "Global",
+            "properties": {
+                "enabled": "[parameters('enableActivityLogPolicyAssignmentDelete')]",
+                "scopes": [
+                    "[subscription().id]"
+                ],
+                "condition": {
+                    "allOf": [
+                        {
+                          "field": "category",
+                          "equals": "Administrative"
+                        },
+                        {
+                          "field": "operationName",
+                          "equals": "Microsoft.Authorization/policyAssignments/delete"
+                        },
+                        {
+                          "field": "resourceType",
+                          "equals": "microsoft.authorization/policyassignments"
+                        }
+                      ]
+                },
+                "actions": {
+                    "actionGroups": [
+                        {
+                            "actionGroupId": "[parameters('actionGroupResourceId')]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "condition": "[equals(parameters('deployAlertPolicyWrite'),'Yes')]",
+            "type": "Microsoft.Insights/activityLogAlerts",
+            "apiVersion": "2017-04-01",
+            "name": "[concat('Create or Update Policy ', parameters('activityLogAlertNameSuffix'))]",
+            "location": "Global",
+            "properties": {
+                "enabled": "[parameters('enableActivityLogPolicyWrite')]",
+                "scopes": [
+                    "[subscription().id]"
+                ],
+                "condition": {
+                    "allOf": [
+                        {
+                          "field": "category",
+                          "equals": "Security"
+                        },
+                        {
+                          "field": "operationName",
+                          "equals": "Microsoft.Security/policies/write"
+                        },
+                        {
+                          "field": "resourceType",
+                          "equals": "microsoft.security/policies"
+                        }
+                      ]
+                },
+                "actions": {
+                    "actionGroups": [
+                        {
+                            "actionGroupId": "[parameters('actionGroupResourceId')]"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+
