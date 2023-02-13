@@ -2,6 +2,12 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "activityLogAlertNameSuffix": {
+            "type": "string",
+            "metadata": {
+                "description": "Unique name (within the Resource Group) for the Activity log alert."
+            }
+        },
         "memoryAlertName": {
             "defaultValue": "All VMs Percentage Memory Utilization",
             "type": "String"
@@ -42,11 +48,11 @@
             "maxValue": 100
         },
         "actionGroupId": {
-            "defaultValue": "/subscriptions/1f1408b2-11a5-4921-834e-61ce068fd933/resourceGroups/HF-mgmt/providers/microsoft.insights/actiongroups/ActivityLogAlerts",
+            "defaultValue": "/subscriptions/2B869722-122E-4BA8-9021-80EAA67A0EDF/resourceGroups/fl-mgmt/providers/microsoft.insights/actionGroups/Activity-log-alerts",
             "type": "String"
         },
         "logAnalyticsWorkspaceId": {
-            "defaultValue": "/subscriptions/1f1408b2-11a5-4921-834e-61ce068fd933/resourcegroups/hf-mgmt/providers/microsoft.operationalinsights/workspaces/hf-la-1f1408b2-11a5-4921-834e-61ce068fd933",
+            "defaultValue": "/subscriptions/2b869722-122e-4ba8-9021-80eaa67a0edf/resourceGroups/fl-mgmt/providers/Microsoft.OperationalInsights/workspaces/fl-law",
             "type": "String"
         }
     },
@@ -55,10 +61,10 @@
         {
             "type": "microsoft.insights/scheduledqueryrules",
             "apiVersion": "2020-05-01-preview",
-            "name": "[parameters('cpuAlertName')]",
+            "name": "[concat(parameters('cpuAlertName'), '-', parameters('activityLogAlertNameSuffix'))]",
             "location": "Global",
             "properties": {
-                "displayName": "[parameters('cpuAlertName')]",
+                "displayName": "[concat(parameters('cpuAlertName'), '-', parameters('activityLogAlertNameSuffix'))]",
                 "description": "[concat('Alert on CPU percentage utilization exceeding', parameters('cpuAlertThreshold'), 'percent.')]",
                 "severity": 3,
                 "enabled": true,
@@ -101,10 +107,10 @@
         {
             "type": "microsoft.insights/scheduledqueryrules",
             "apiVersion": "2020-05-01-preview",
-            "name": "[parameters('diskAlertName')]",
+            "name": "[concat(parameters('diskAlertName'), '-', parameters('activityLogAlertNameSuffix'))]",
             "location": "Global",
             "properties": {
-                "displayName": "[parameters('diskAlertName')]",
+                "displayName": "[concat(parameters('diskAlertName'), '-', parameters('activityLogAlertNameSuffix'))]",
                 "description": "[concat('Alert on logical disk free space falling below', parameters('diskAlertThreshold'), 'percent.')]",
                 "severity": 3,
                 "enabled": true,
@@ -147,10 +153,10 @@
         {
             "type": "microsoft.insights/scheduledqueryrules",
             "apiVersion": "2020-05-01-preview",
-            "name": "[parameters('memoryAlertName')]",
+            "name": "[concat(parameters('memoryAlertName'), '-', parameters('activityLogAlertNameSuffix'))]",
             "location": "Global",
             "properties": {
-                "displayName": "[parameters('memoryAlertName')]",
+                "displayName": "[concat(parameters('memoryAlertName'), '-', parameters('activityLogAlertNameSuffix'))]",
                 "description": "[concat('Alert on memory percentage utilization exceeding', parameters('memoryAlertThreshold'), 'percent.')]",
                 "severity": 3,
                 "enabled": true,
